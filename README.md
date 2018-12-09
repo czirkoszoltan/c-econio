@@ -2,7 +2,7 @@
 
 Colored output and raw keyboard handling for Linux and Windows console in C.
 
-This package is created for educational purposes. For the Windows version, it uses code from the econio library of Eric Tetz.
+This package is created for educational purposes. For the Windows version, it uses code from the econio library written by Eric Tetz.
 
 
 ## Screen and cursor positioning
@@ -27,8 +27,8 @@ int main() {
 See the constants in `econio.h`:
 
 ```c
-econio_textcolor(LIGHTGREEN);
-econio_textbackground(BLUE);
+econio_textcolor(COL_LIGHTGREEN);
+econio_textbackground(COL_BLUE);
 printf("Hello world!\n");
 ```
 
@@ -69,24 +69,24 @@ int main() {
     econio_rawmode();
     while (true) {
         econio_gotoxy(x, y);
-        econio_textcolor(LIGHTGREEN);
+        econio_textcolor(COL_LIGHTGREEN);
         printf("*");
         econio_gotoxy(80, 24);
         
         int key = econio_getch();
         econio_gotoxy(x, y);
-        econio_textcolor(BLUE);
+        econio_textcolor(COL_BLUE);
         printf(".");
 
-        if (key == UP)
+        if (key == KEY_UP)
             y = max(y-1, 1);
-        else if (key == DOWN)
+        else if (key == KEY_DOWN)
             y = min(y+1, 23);
-        else if (key == LEFT)
+        else if (key == KEY_LEFT)
             x = max(x-1, 0);
-        else if (key == RIGHT)
+        else if (key == KEY_RIGHT)
             x = min(x+1, 79);
-        else if (key == ESCAPE)
+        else if (key == KEY_ESCAPE)
             break;
     }
     econio_normalmode();

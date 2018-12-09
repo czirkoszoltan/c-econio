@@ -9,10 +9,10 @@ int main() {
     // Positioning;
     econio_clrscr();
     econio_gotoxy(0, 0);
-    econio_textcolor(LIGHTGREEN);
+    econio_textcolor(COL_LIGHTGREEN);
     printf("Hello");
     econio_gotoxy(10, 0);
-    econio_textbackground(LIGHTBLUE);
+    econio_textbackground(COL_LIGHTBLUE);
     printf("world!");
     printf("\n");
 
@@ -29,13 +29,13 @@ int main() {
     printf("\n");
 
     // Raw input;
-    econio_textbackground(RESET);
-    econio_textcolor(RESET);
+    econio_textbackground(COL_RESET);
+    econio_textcolor(COL_RESET);
     printf("Raw input test, press keys and then Enter:\n");
     econio_rawmode();
     while (true) {
         int ch = econio_getch();
-        if (ch == ENTER)
+        if (ch == KEY_ENTER)
             break;
         printf("%d ", ch);
     }

@@ -14,22 +14,22 @@ static WORD fgcolor = LIGHTGRAY;
 static bool rawmode = false;
 
 static WORD colormap[] = {
-    [BLACK]           = 0,
-    [BLUE]            = FOREGROUND_BLUE,
-    [GREEN]           = FOREGROUND_GREEN,
-    [CYAN]            = FOREGROUND_GREEN | FOREGROUND_BLUE,
-    [RED]             = FOREGROUND_RED,
-    [MAGENTA]         = FOREGROUND_RED   | FOREGROUND_BLUE,
-    [BROWN]           = FOREGROUND_RED   | FOREGROUND_GREEN,
-    [LIGHTGRAY]       = FOREGROUND_RED   | FOREGROUND_GREEN | FOREGROUND_BLUE,
-    [DARKGRAY]        = FOREGROUND_INTENSITY,
-    [LIGHTBLUE]       = FOREGROUND_BLUE  | FOREGROUND_INTENSITY,
-    [LIGHTGREEN]      = FOREGROUND_GREEN | FOREGROUND_INTENSITY,
-    [LIGHTCYAN]       = FOREGROUND_GREEN | FOREGROUND_BLUE  | FOREGROUND_INTENSITY,
-    [LIGHTRED]        = FOREGROUND_RED   | FOREGROUND_INTENSITY,
-    [LIGHTMAGENTA]    = FOREGROUND_RED   | FOREGROUND_BLUE  | FOREGROUND_INTENSITY,
-    [YELLOW]          = FOREGROUND_RED   | FOREGROUND_GREEN | FOREGROUND_INTENSITY,
-    [WHITE]           = FOREGROUND_RED   | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY,
+    [COL_BLACK]           = 0,
+    [COL_BLUE]            = FOREGROUND_BLUE,
+    [COL_GREEN]           = FOREGROUND_GREEN,
+    [COL_CYAN]            = FOREGROUND_GREEN | FOREGROUND_BLUE,
+    [COL_RED]             = FOREGROUND_RED,
+    [COL_MAGENTA]         = FOREGROUND_RED   | FOREGROUND_BLUE,
+    [COL_BROWN]           = FOREGROUND_RED   | FOREGROUND_GREEN,
+    [COL_LIGHTGRAY]       = FOREGROUND_RED   | FOREGROUND_GREEN | FOREGROUND_BLUE,
+    [COL_DARKGRAY]        = FOREGROUND_INTENSITY,
+    [COL_LIGHTBLUE]       = FOREGROUND_BLUE  | FOREGROUND_INTENSITY,
+    [COL_LIGHTGREEN]      = FOREGROUND_GREEN | FOREGROUND_INTENSITY,
+    [COL_LIGHTCYAN]       = FOREGROUND_GREEN | FOREGROUND_BLUE  | FOREGROUND_INTENSITY,
+    [COL_LIGHTRED]        = FOREGROUND_RED   | FOREGROUND_INTENSITY,
+    [COL_LIGHTMAGENTA]    = FOREGROUND_RED   | FOREGROUND_BLUE  | FOREGROUND_INTENSITY,
+    [COL_YELLOW]          = FOREGROUND_RED   | FOREGROUND_GREEN | FOREGROUND_INTENSITY,
+    [COL_WHITE]           = FOREGROUND_RED   | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY,
 };
 
 #define STDOUT GetStdHandle(STD_OUTPUT_HANDLE)
@@ -105,35 +105,35 @@ int econio_getch() {
         int code;
         EconioKey key;
     } windowskeycodes[] = {
-        {72, UP},
-        {80, DOWN},
-        {75, LEFT},
-        {77, RIGHT},
-        {73, PAGEUP},
-        {81, PAGEDOWN},
-        {71, HOME},
-        {79, END},
-        {82, INSERT},
-        {83, DELETE},
-        {141, CTRLUP},
-        {145, CTRLDOWN},
-        {115, CTRLLEFT},
-        {116, CTRLRIGHT},
-        {134, CTRLPAGEUP},
-        {118, CTRLPAGEDOWN},
-        {119, CTRLHOME},
-        {117, CTRLEND},
-        {146, CTRLINSERT},
-        {147, CTRLDELETE},
-        {-1, UNKNOWNKEY},
+        {72, KEY_UP},
+        {80, KEY_DOWN},
+        {75, KEY_LEFT},
+        {77, KEY_RIGHT},
+        {73, KEY_PAGEUP},
+        {81, KEY_PAGEDOWN},
+        {71, KEY_HOME},
+        {79, KEY_END},
+        {82, KEY_INSERT},
+        {83, KEY_DELETE},
+        {141, KEY_CTRLUP},
+        {145, KEY_CTRLDOWN},
+        {115, KEY_CTRLLEFT},
+        {116, KEY_CTRLRIGHT},
+        {134, KEY_CTRLPAGEUP},
+        {118, KEY_CTRLPAGEDOWN},
+        {119, KEY_CTRLHOME},
+        {117, KEY_CTRLEND},
+        {146, KEY_CTRLINSERT},
+        {147, KEY_CTRLDELETE},
+        {-1, KEY_UNKNOWNKEY},
     };
 
     assert(rawmode);
     int code = _getch();
     if (code == 0x7F)
-        return BACKSPACE;
+        return KEY_BACKSPACE;
     if (code == 0x0D)
-        return ENTER;
+        return KEY_ENTER;
     if (code != 0xE0)
         return code;
     code = _getch();
@@ -141,7 +141,7 @@ int econio_getch() {
     for (int i = 0; windowskeycodes[i].code != -1; ++i)
         if (code == windowskeycodes[i].code)
             return windowskeycodes[i].key;
-    return UNKNOWNKEY;
+    return KEY_UNKNOWNKEY;
 }
 
 
@@ -259,37 +259,37 @@ int econio_getch() {
         char const *escape;
         EconioKey key;
     } unixkeycodes[] = {
-        {"\033OP", F1},
-        {"\033OQ", F2},
-        {"\033OR", F3},
-        {"\033OS", F4},
-        {"\033[15~", F5},
-        {"\033[17~", F6},
-        {"\033[18~", F7},
-        {"\033[19~", F8},
-        {"\033[20~", F9},
-        {"\033[21~", F10},
-        {"\033[23~", F11},
-        {"\033[24~", F12},
-        {"\033[A", UP},
-        {"\033[B", DOWN},
-        {"\033[D", LEFT},
-        {"\033[C", RIGHT},
-        {"\033[5~", PAGEUP},
-        {"\033[6~", PAGEDOWN},
-        {"\033[H", HOME},
-        {"\033[F", END},
-        {"\033[2~", INSERT},
-        {"\033[3~", DELETE},
-        {"\033[1;5A", CTRLUP},
-        {"\033[1;5B", CTRLDOWN},
-        {"\033[1;5D", CTRLLEFT},
-        {"\033[1;5C", CTRLRIGHT},
-        {"\033[5;5~", CTRLPAGEUP},
-        {"\033[6;5~", CTRLPAGEDOWN},
-        {"\033[1;5H", CTRLHOME},
-        {"\033[1;5F", CTRLEND},
-        {"\033[3;5~", CTRLDELETE},
+        {"\033OP", KEY_F1},
+        {"\033OQ", KEY_F2},
+        {"\033OR", KEY_F3},
+        {"\033OS", KEY_F4},
+        {"\033[15~", KEY_F5},
+        {"\033[17~", KEY_F6},
+        {"\033[18~", KEY_F7},
+        {"\033[19~", KEY_F8},
+        {"\033[20~", KEY_F9},
+        {"\033[21~", KEY_F10},
+        {"\033[23~", KEY_F11},
+        {"\033[24~", KEY_F12},
+        {"\033[A", KEY_UP},
+        {"\033[B", KEY_DOWN},
+        {"\033[D", KEY_LEFT},
+        {"\033[C", KEY_RIGHT},
+        {"\033[5~", KEY_PAGEUP},
+        {"\033[6~", KEY_PAGEDOWN},
+        {"\033[H", KEY_HOME},
+        {"\033[F", KEY_END},
+        {"\033[2~", KEY_INSERT},
+        {"\033[3~", KEY_DELETE},
+        {"\033[1;5A", KEY_CTRLUP},
+        {"\033[1;5B", KEY_CTRLDOWN},
+        {"\033[1;5D", KEY_CTRLLEFT},
+        {"\033[1;5C", KEY_CTRLRIGHT},
+        {"\033[5;5~", KEY_CTRLPAGEUP},
+        {"\033[6;5~", KEY_CTRLPAGEDOWN},
+        {"\033[1;5H", KEY_CTRLHOME},
+        {"\033[1;5F", KEY_CTRLEND},
+        {"\033[3;5~", KEY_CTRLDELETE},
         {NULL, 0},
     };
 
@@ -300,7 +300,7 @@ int econio_getch() {
     int i = 0;
     s[i++] = rawgetch();
     if (s[i-1] == 0x7F)
-        return BACKSPACE;
+        return KEY_BACKSPACE;
     if (s[i-1] != 0x1B || !econio_kbhit())     // only an escape sequence if other chars can be read
         return s[i-1];
 
@@ -320,7 +320,7 @@ int econio_getch() {
     for (i = 0; unixkeycodes[i].escape != NULL; ++i)
         if (strcmp(unixkeycodes[i].escape, s) == 0)
             return unixkeycodes[i].key;
-    return UNKNOWNKEY;
+    return KEY_UNKNOWNKEY;
 }
 
 
