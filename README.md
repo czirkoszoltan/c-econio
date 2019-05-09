@@ -1,6 +1,6 @@
-# C language econio library
+# Econio library for C and C++
 
-Colored output and raw keyboard handling for Linux and Windows console in C.
+Colored output and raw keyboard handling for Linux and Windows console in C and C++.
 
 This package is created for educational purposes. For the Windows version, it uses code from the econio library written by Eric Tetz.
 
@@ -94,6 +94,10 @@ int main() {
     return 0;
 }
 ```
+
+## C++
+
+Works with C++ as well. You can rename `econio.c` to `econio.cpp`, and compile as C++, if needed.
 
 ## License
 

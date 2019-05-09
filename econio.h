@@ -3,6 +3,9 @@
 
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum EconioColor {
     COL_BLACK = 0,
@@ -146,5 +149,8 @@ int econio_getch();
  */
 void econio_sleep(double sec);
 
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif

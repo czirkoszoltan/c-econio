@@ -290,13 +290,14 @@ int econio_getch() {
         {"\033[1;5H", KEY_CTRLHOME},
         {"\033[1;5F", KEY_CTRLEND},
         {"\033[3;5~", KEY_CTRLDELETE},
-        {NULL, 0},
+        {NULL, KEY_UNKNOWNKEY},
     };
 
     assert(inrawmode());
     econio_flush();
 
-    char s[10];
+    enum { bufsize = 10 };
+    char s[bufsize];
     int i = 0;
     s[i++] = rawgetch();
     if (s[i-1] == 0x7F)
@@ -310,7 +311,7 @@ int econio_getch() {
         s[i++] = rawgetch();
     } else if (s[i-1] == '[') { // other: always delimited by uppercase char or tilde
         s[i++] = rawgetch();
-        while (!(isupper(s[i-1]) || s[i-1] == '~') && (i < sizeof(s)/sizeof(s[0])-1))
+        while (!(isupper(s[i-1]) || s[i-1] == '~') && (i < bufsize-1))
             s[i++] = rawgetch();
     } else {    // unknown sequence, return verbatim
         ungetc(s[i-1], stdin);
