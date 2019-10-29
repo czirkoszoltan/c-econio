@@ -43,8 +43,8 @@ void econio_gotoxy(int x, int y) {
 
 
 void econio_textbackground(int newcolor) {
-    if (newcolor == RESET)
-        newcolor = BLACK;
+    if (newcolor == COL_RESET)
+        newcolor = COL_BLACK;
     assert(newcolor >= 0 && newcolor < 16);
     bgcolor = (WORD) (colormap[newcolor] << 4);
     SetConsoleTextAttribute(STDOUT, fgcolor | bgcolor);
@@ -52,8 +52,8 @@ void econio_textbackground(int newcolor) {
 
 
 void econio_textcolor(int newcolor) {
-    if (newcolor == RESET)
-        newcolor = LIGHTGRAY;
+    if (newcolor == COL_RESET)
+        newcolor = COL_LIGHTGRAY;
     assert(newcolor >= 0 && newcolor < 16);
     fgcolor = (WORD) colormap[newcolor];
     SetConsoleTextAttribute(STDOUT, fgcolor | bgcolor);
