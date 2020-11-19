@@ -9,8 +9,8 @@
 #include <conio.h>
 #include <assert.h>
 
-static WORD bgcolor = BLACK;
-static WORD fgcolor = LIGHTGRAY;
+static WORD bgcolor = COL_BLACK;
+static WORD fgcolor = COL_LIGHTGRAY;
 static bool rawmode = false;
 
 static WORD colormap[] = {
