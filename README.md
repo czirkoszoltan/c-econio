@@ -36,8 +36,8 @@ printf("Hello world!\n");
 ## Buffered output
 
 Stdout is usually buffered, and buffer is flushed when printing a newline `'\n'` char.
-So a entire scene can be drawn without flickering, then you can use `econio_flush()`.
-But econio tries to handle that the same way the standard library does, by flushing the
+So an entire scene can be drawn without flickering, then you can use `econio_flush()`.
+Econio tries to handle that the same way the standard library does, by flushing the
 output when input is requested.
 
 
@@ -97,7 +97,7 @@ int main() {
 
 ## C++
 
-Works with C++ as well. You can rename `econio.c` to `econio.cpp`, and compile as C++, if needed.
+Works with C++ as well. If needed, you can rename `econio.c` to `econio.cpp` and compile as C++.
 
 ## License
 
